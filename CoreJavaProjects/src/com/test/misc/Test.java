@@ -45,6 +45,7 @@ public class Test {
 
 		foo(blue);
 		System.out.println("blue color=" + blue.getColor());
+		
 
 	}
 
