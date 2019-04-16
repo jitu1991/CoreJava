@@ -193,7 +193,156 @@ public class Main {
 		
 		System.out.printf("Factory stats:\n");
 		System.out.printf("%s\n",myThreadFactory.getStats());*/
-	}
+		
+		/************************* Using synchronization **********************/
+		/*Account account = new Account();
+		account.setBalance(1000);
+		
+		Company company = new Company(account);
+		Thread companyThread = new Thread(company);
+		
+		Bank bank = new Bank(account);
+		Thread bankThread = new Thread(bank);
+		
+		System.out.printf("Account : Initial Balance: %f\n",account.getBalance());
+		companyThread.start();
+		bankThread.start();
+		
+		try {
+			companyThread.join();
+			bankThread.join();
+			System.out.printf("Account : Final Balance: %f\n", account.getBalance());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+		
+		/************************* Synchronization on different attributes **********************/
+		/*Cinema cinema = new Cinema();
+		TicketOffice1 ticketOffice1 = new TicketOffice1(cinema);
+		Thread thread1 = new Thread(ticketOffice1, "TicketOffice1");
+
+		TicketOffice2 ticketOffice2 = new TicketOffice2(cinema);
+		Thread thread2 = new Thread(ticketOffice2, "TicketOffice2");
+		
+		thread1.start();
+		thread2.start();
+		
+		try {
+			thread1.join();
+			thread2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("Cinema 1 Vacant Seats: %d\n",cinema.getVacantSeatsCinema1());
+		System.out.printf("Cinema 2 Vacant Seats: %d\n",cinema.getVacantSeatsCinema2());*/
+		
+		/************************* Producer consumer using wait and notify **********************/
+		/*EventStorage storage = new EventStorage();
+		Producer producer = new Producer(storage);
+		Thread thread1 = new Thread(producer);
+
+		Consumer consumer = new Consumer(storage);
+		Thread thread2 = new Thread(consumer);
+		
+		thread1.start();
+		thread2.start();*/
+		
+		/************************* Synchronizing using lock **********************/
+		/*PrintQueue printQueue = new PrintQueue();
+		
+		Thread thread[] = new Thread[10];
+		for (int i = 0; i < 10; i++) {
+			thread[i] = new Thread(new Job(printQueue), "Thread " + i);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			thread[i].start();
+		}*/
+		
+		// To Test fairness property
+		/*for (int i = 0; i < 10; i++) {
+			thread[i].start();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}*/
+		
+		/************************* QUERY - Synchronizing data using read-write locks **********************/
+		/*PricesInfo pricesInfo = new PricesInfo();
+		
+		Reader readers[] = new Reader[5];
+		Thread readerThreads[] = new Thread[5];
+		
+		for (int i = 0; i < 5; i++) {
+			readers[i] = new Reader(pricesInfo);
+			readerThreads[i] = new Thread(readers[i]);
+		}
+		
+		Writer writer=new Writer(pricesInfo);
+		Thread writerThreads = new Thread(writer);
+		
+		for (int i=0; i<5; i++) {
+			readerThreads[i].start();
+			}
+		writerThreads.start();*/
+		
+		/************************* QUERY - Producer-consumer using lock and conditions **********************/
+		/*FileMock mock = new FileMock(100, 10);
+		Buffer buffer = new Buffer(20);
+		
+		Producer1 producer = new Producer1(mock, buffer);
+		Thread threadProducer = new Thread(producer, "Producer");
+		
+		Consumer1 consumers[] = new Consumer1[3];
+		Thread threadConsumers[] = new Thread[3];
+		
+		for (int i = 0; i < 3; i++) {
+			consumers[i] = new Consumer1(buffer);
+			threadConsumers[i] = new Thread(consumers[i], "Consumer " + i);
+		}
+		
+		threadProducer.start();
+		for (int i = 0; i < 3; i++) {
+			threadConsumers[i].start();
+		}*/
+		
+		// To Test fairness property
+		/*for (int i = 0; i < 10; i++) {
+			thread[i].start();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}*/
+		
+		/************************* Using Semaphore **********************/
+		/*PrintQueue1 printQueue = new PrintQueue1();
+		Thread thread[] = new Thread[10];
+		for (int i = 0; i < 10; i++) {
+			thread[i] = new Thread(new Job1(printQueue), "Thread " + i);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			thread[i].start();
+		}*/
+		
+		/************************* Concurrent access to multiple copies of a resource **********************/
+		/*PrintQueue2 printQueue = new PrintQueue2();
+		Thread thread[] = new Thread[10];
+		for (int i = 0; i < 10; i++) {
+			thread[i] = new Thread(new Job2(printQueue), "Thread " + i);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			thread[i].start();
+		}*/
+		
+		/************************* Count down latch **********************/
+		
+}
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
 		pw.write("\nMain : Id "+ thread.getId() +" - " + thread.getName() +"\n");
@@ -212,5 +361,4 @@ public class Main {
 			}
 		}
 	}
-
 }
