@@ -341,7 +341,15 @@ public class Main {
 		}*/
 		
 		/************************* Count down latch **********************/
+		Videoconference conference = new Videoconference(10);
+		Thread confThread = new Thread(conference);
+		confThread.start();
 		
+		for (int i = 0; i < 10; i++) {
+			Participant p = new Participant(conference, "Participant " + i);
+			Thread t = new Thread(p);
+			t.start();
+		}
 }
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
