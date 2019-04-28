@@ -3,9 +3,9 @@ package com.test.concurrency;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
-import java.util.ArrayDeque;
-import java.util.Date;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -341,7 +341,7 @@ public class Main {
 		}*/
 		
 		/************************* Count down latch **********************/
-		Videoconference conference = new Videoconference(10);
+		/*Videoconference conference = new Videoconference(10);
 		Thread confThread = new Thread(conference);
 		confThread.start();
 		
@@ -349,7 +349,62 @@ public class Main {
 			Participant p = new Participant(conference, "Participant " + i);
 			Thread t = new Thread(p);
 			t.start();
+		}*/
+		
+		/************************* Cyclic Barrier **********************/
+		/*final int ROWS = 1000;
+		final int NUMBERS = 100;
+		final int SEARCH = 5;
+		final int PARTICIPANTS = 5;
+		final int LINES_PARTICIPANT = 200;
+		
+		MatrixMock mock = new MatrixMock(ROWS, NUMBERS, SEARCH);
+		Results results = new Results(ROWS);
+		Grouper grouper = new Grouper(results);
+		CyclicBarrier barrier = new CyclicBarrier(PARTICIPANTS, grouper);
+		Searcher searchers[] = new Searcher[PARTICIPANTS];
+		
+		for (int i = 0; i < PARTICIPANTS; i++) {
+			searchers[i] = new Searcher(i * LINES_PARTICIPANT, (i * LINES_PARTICIPANT) + LINES_PARTICIPANT, mock,
+					results, 5, barrier);
+			Thread thread = new Thread(searchers[i]);
+			thread.start();
 		}
+		System.out.printf("Main: The main thread has finished.\n");*/
+		
+		/************************* Phaser **********************/
+		/*Phaser phaser = new Phaser(3);
+		FileSearch1 document = new FileSearch1("C:\\Users\\jitender.kumar\\Documents\\NDA", "pdf", phaser);
+		FileSearch1 backup = new FileSearch1("C:\\Users\\jitender.kumar\\Documents\\backup_Docs", "pdf", phaser);
+		FileSearch1 travel= new FileSearch1("C:\\Users\\jitender.kumar\\Documents\\Travel", "pdf", phaser);
+		Thread docThread = new Thread(document, "Document");
+		docThread.start();
+		Thread backupThread = new Thread(backup, "Backup");
+		backupThread.start();
+		Thread travelThread = new Thread(travel, "Travel");
+		travelThread.start();
+		try {
+			docThread.join();
+			backupThread.join();
+			travelThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Terminated: " + phaser.isTerminated());*/
+		
+		/************************* Exchanger **********************/
+		List<String> buffer1=new ArrayList<>();
+		List<String> buffer2=new ArrayList<>();
+		
+		Exchanger<List<String>> exchanger=new Exchanger<>();
+		
+		Producer2 producer=new Producer2(buffer1, exchanger);
+		Consumer2 consumer=new Consumer2(buffer2, exchanger);
+		
+		Thread threadProducer=new Thread(producer);
+		Thread threadConsumer=new Thread(consumer);
+		threadProducer.start();
+		threadConsumer.start();
 }
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
