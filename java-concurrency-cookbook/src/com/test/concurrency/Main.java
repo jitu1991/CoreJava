@@ -4,8 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Exchanger;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -393,7 +400,7 @@ public class Main {
 		System.out.println("Terminated: " + phaser.isTerminated());*/
 		
 		/************************* Exchanger **********************/
-		List<String> buffer1=new ArrayList<>();
+		/*List<String> buffer1=new ArrayList<>();
 		List<String> buffer2=new ArrayList<>();
 		
 		Exchanger<List<String>> exchanger=new Exchanger<>();
@@ -404,8 +411,182 @@ public class Main {
 		Thread threadProducer=new Thread(producer);
 		Thread threadConsumer=new Thread(consumer);
 		threadProducer.start();
-		threadConsumer.start();
-}
+		threadConsumer.start();*/
+		
+		/************************* Executor Framework **********************/
+		/*Server server = new Server();
+		for (int i = 0; i < 10; i++) {
+			Task3 task = new Task3("Task " + i);
+			server.executeTask(task);
+		}
+		server.endServer();*/
+		
+		/************************* Executor Framework with Callable **********************/
+		/*ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+		List<Future<Integer>> resultList = new ArrayList<>();
+		Random random = new Random();
+		for (int i = 0; i < 10; i++) {
+			Integer number = random.nextInt(10);
+			FactorialCalculator calculator = new FactorialCalculator(number);
+			Future<Integer> result = executor.submit(calculator);
+			resultList.add(result);
+		}
+
+		do {
+			System.out.printf("Main: Number of Completed Tasks: %d\n", executor.getCompletedTaskCount());
+			for (int i = 0; i < resultList.size(); i++) {
+				Future<Integer> result = resultList.get(i);
+				System.out.printf("Main: Task %d: %s\n", i, result.isDone());
+			}
+			try {
+				TimeUnit.MILLISECONDS.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		} while (executor.getCompletedTaskCount() < resultList.size());
+
+		System.out.printf("Main: Results\n");
+		for (int i = 0; i < resultList.size(); i++) {
+			Future<Integer> result = resultList.get(i);
+
+			Integer number = null;
+			try {
+				number = result.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+			System.out.printf("Main: Task %d: %d\n", i, number);
+		}
+		executor.shutdown();*/
+		
+		/************************* Processing First result with Executor **********************/
+		/*String username = "test";
+		String password = "test";
+
+		UserValidator ldapValidator = new UserValidator("LDAP");
+		UserValidator dbValidator = new UserValidator("DataBase");
+
+		TaskValidator ldapTask = new TaskValidator(ldapValidator, username, password);
+		TaskValidator dbTask = new TaskValidator(dbValidator, username, password);
+
+		List<TaskValidator> taskList = new ArrayList<>();
+		taskList.add(ldapTask);
+		taskList.add(dbTask);
+
+		ExecutorService executor = (ExecutorService) Executors.newCachedThreadPool();
+		String result;
+
+		try {
+			result = executor.invokeAny(taskList);
+			System.out.printf("Main: Result: %s\n", result);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		executor.shutdown();
+		System.out.printf("Main: End of the Execution\n");*/
+		
+		/************************* ScheduledThreadPool Executor **********************/
+		/*ScheduledThreadPoolExecutor executor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(1);
+		System.out.printf("Main: Starting at: %s\n", new Date());
+		for (int i = 0; i < 5; i++) {
+			Task4 task = new Task4("Task " + i);
+			executor.schedule(task, i + 1, TimeUnit.SECONDS);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("Main: Ends at: %s\n", new Date());*/
+		
+		/************************* Controlling/Finishing task in Executor **********************/
+		/*ExecutorService executor = (ExecutorService) Executors.newCachedThreadPool();
+		ResultTask resultTasks[] = new ResultTask[5];
+		for (int i = 0; i < 5; i++) {
+			ExecutableTask executableTask = new ExecutableTask("Task " + i);
+			resultTasks[i] = new ResultTask(executableTask);
+			executor.submit(resultTasks[i]);
+		}
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < resultTasks.length; i++) {
+			resultTasks[i].cancel(true);
+		}
+		for (int i = 0; i < resultTasks.length; i++) {
+			try {
+				if (!resultTasks[i].isCancelled())
+					System.out.printf("%s\n", resultTasks[i].get());
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		executor.shutdown();*/
+		
+		/************************* Using CompletionService in Executor **********************/
+		/*ExecutorService executor = Executors.newCachedThreadPool();
+		CompletionService<String> service = new ExecutorCompletionService(executor);
+
+		ReportRequest faceRequest = new ReportRequest("Face", service);
+		ReportRequest onlineRequest = new ReportRequest("Online", service);
+
+		Thread faceThread = new Thread(faceRequest);
+		Thread onlineThread = new Thread(onlineRequest);
+
+		ReportProcessor processor = new ReportProcessor(service);
+		Thread senderThread = new Thread(processor);
+
+		System.out.printf("Main: Starting the Threads\n");
+		faceThread.start();
+		onlineThread.start();
+		senderThread.start();
+
+		try {
+			System.out.printf("Main: Waiting for the report generators.\n");
+			faceThread.join();
+			onlineThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("Main: Shutting down the executor.\n");
+		executor.shutdown();
+		try {
+			executor.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		processor.setEnd(true);
+		System.out.println("Main: Ends");*/
+		
+		/************************* Controlling rejected task in Executor **********************/
+		/*RejectedTaskController controller = new RejectedTaskController();
+		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+		executor.setRejectedExecutionHandler(controller);
+		System.out.printf("Main: Starting.\n");
+		for (int i = 0; i < 3; i++) {
+			Task5 task = new Task5("Task" + i);
+			executor.submit(task);
+		}
+		System.out.printf("Main: Shutting down the Executor.\n");
+		executor.shutdown();
+
+		System.out.printf("Main: Sending another Task.\n");
+		Task5 task = new Task5("RejectedTask");
+		executor.submit(task);
+
+		System.out.println("Main: End");
+		System.out.printf("Main: End.\n");*/
+	}
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
 		pw.write("\nMain : Id "+ thread.getId() +" - " + thread.getName() +"\n");
