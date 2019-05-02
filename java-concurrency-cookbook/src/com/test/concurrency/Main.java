@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -586,6 +587,139 @@ public class Main {
 
 		System.out.println("Main: End");
 		System.out.printf("Main: End.\n");*/
+		
+		/************************* Creating Fork Join Executor **********************/
+		/*ProductListGenerator generator = new ProductListGenerator();
+		List<Product> products = generator.generate(10000);
+
+		Task6 task = new Task6(products, 0, products.size(), 0.20);
+		ForkJoinPool pool = new ForkJoinPool();
+		pool.execute(task);
+
+		do {
+			System.out.printf("Main: Thread Count: %d\n", pool.getActiveThreadCount());
+			System.out.printf("Main: Thread Steal: %d\n", pool.getStealCount());
+			System.out.printf("Main: Parallelism: %d\n", pool.getParallelism());
+			try {
+				TimeUnit.MILLISECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} while (!task.isDone());
+
+		pool.shutdown();
+		
+		if (task.isCompletedNormally()) {
+			System.out.printf("Main: The process has completed normally.\n");
+		}
+
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
+			if (product.getPrice() != 12) {
+				System.out.printf("Product %s: %f\n", product.getName(), product.getPrice());
+			}
+		}
+
+		System.out.println("Main: End of the program.\n");*/
+		
+		/************************* Creating Fork JOIN Executor **********************/
+		/*Document mock = new Document();
+		String[][] document = mock.generateDocument(100, 1000, "the");
+
+		DocumentTask task = new DocumentTask(document, 0, 100, "the");
+		ForkJoinPool pool = new ForkJoinPool();
+		pool.execute(task);
+
+		do {
+			System.out.printf("******************************************\n");
+			System.out.printf("Main: Parallelism: %d\n", pool.getParallelism());
+			System.out.printf("Main: Active Threads: %d\n", pool.getActiveThreadCount());
+			System.out.printf("Main: Task Count: %d\n", pool.getQueuedTaskCount());
+			System.out.printf("Main: Steal Count: %d\n", pool.getStealCount());
+			System.out.printf("******************************************\n");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} while (!task.isDone());
+
+		pool.shutdown();
+		try {
+			pool.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			System.out.printf("Main: The word appears %d in the document", task.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}*/
+		
+		/************************* Running task asynchronously in Fork Join **********************/
+		/*ForkJoinPool pool = new ForkJoinPool();
+		FolderProcessor nda = new FolderProcessor("C:\\Users\\jitender.kumar\\Documents\\NDA", "pdf");
+		FolderProcessor travel = new FolderProcessor("C:\\Users\\jitender.kumar\\Documents\\Travel", "pdf");
+		FolderProcessor term = new FolderProcessor("C:\\Users\\jitender.kumar\\Documents\\TermLifeDocs", "pdf");
+		pool.execute(nda);
+		pool.execute(travel);
+		pool.execute(term);
+		do {
+			System.out.printf("******************************************\n");
+			System.out.printf("Main: Parallelism: %d\n", pool.getParallelism());
+			System.out.printf("Main: Active Threads: %d\n", pool.getActiveThreadCount());
+			System.out.printf("Main: Task Count: %d\n", pool.getQueuedTaskCount());
+			System.out.printf("Main: Steal Count: %d\n", pool.getStealCount());
+			System.out.printf("******************************************\n");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} while ((!nda.isDone()) || (!travel.isDone()) || (!term.isDone()));
+		pool.shutdown();
+
+		List<String> results;
+		results = nda.join();
+		System.out.printf("NDA: %d files found.\n", results.size());
+		results = travel.join();
+		System.out.printf("Travel: %d files found.\n", results.size());
+		results = term.join();
+		System.out.printf("Term: %d files found.\n", results.size());*/
+		
+		/************************* Throwing exception in task in fork join **********************/
+		/*int array[] = new int[100];
+		Task7 task = new Task7(array, 0, 100);
+		ForkJoinPool pool = new ForkJoinPool();
+		pool.execute(task);
+		pool.shutdown();
+		try {
+			pool.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (task.isCompletedAbnormally()) {
+			System.out.printf("Main: An exception has ocurred\n");
+			System.out.printf("Main: %s\n", task.getException());
+		}
+		System.out.printf("Main: Result: %d", task.join());*/
+
+		/************************* Cancelling a task in fork join **********************/
+		ArrayGenerator generator = new ArrayGenerator();
+		int array[] = generator.generateArray(1000);
+		TaskManager manager = new TaskManager();
+
+		ForkJoinPool pool = new ForkJoinPool();
+		SearchNumberTask task = new SearchNumberTask(array, 0, 1000, 5, manager);
+		pool.execute(task);
+		pool.shutdown();
+		try {
+			pool.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("\nMain: The program has finished\n");
 	}
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
