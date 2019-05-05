@@ -3,21 +3,13 @@ package com.test.concurrency;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.Map;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		 /* for (int i = 1; i <= 10; i++) {
 			Calculator calc = new Calculator(i);
 			Thread thread = new Thread(calc);
@@ -706,7 +698,7 @@ public class Main {
 		System.out.printf("Main: Result: %d", task.join());*/
 
 		/************************* Cancelling a task in fork join **********************/
-		ArrayGenerator generator = new ArrayGenerator();
+		/*ArrayGenerator generator = new ArrayGenerator();
 		int array[] = generator.generateArray(1000);
 		TaskManager manager = new TaskManager();
 
@@ -719,8 +711,129 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.printf("\nMain: The program has finished\n");
+		System.out.printf("\nMain: The program has finished\n");*/
+		
+		/************************* Concurrent Linked Deque **********************/
+		/*ConcurrentLinkedDeque<String> list = new ConcurrentLinkedDeque<>();
+		Thread threads[] = new Thread[100];
+
+		for (int i = 0; i < threads.length; i++) {
+			AddTask task = new AddTask(list);
+			threads[i] = new Thread(task);
+			threads[i].start();
+		}
+		System.out.printf("Main: %d AddTask threads have been launched\n", threads.length);
+
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.printf("Main: Size of the List: %d\n", list.size());
+
+		for (int i = 0; i < threads.length; i++) {
+			PollTask task = new PollTask(list);
+			threads[i] = new Thread(task);
+			threads[i].start();
+		}
+		System.out.printf("Main: %d PollTask threads have been launched\n", threads.length);
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.printf("Main: Size of the List: %d\n", list.size());*/
+		
+		/************************* Linked Blocking Deque **********************/
+		/*LinkedBlockingDeque<String> list = new LinkedBlockingDeque<>(3);
+		Client client = new Client(list);
+		Thread thread = new Thread(client);
+		thread.start();
+
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 3; j++) {
+				String request = list.take();
+				System.out.printf("Main: Request: %s at %s. Size: %d\n", request, new Date(), list.size());
+			}
+			TimeUnit.MILLISECONDS.sleep(300);
+		}
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Delayed Queue **********************/
+		/*DelayQueue<Event1> queue = new DelayQueue<>();
+		Thread threads[] = new Thread[5];
+
+		for (int i = 0; i < threads.length; i++) {
+			Task9 task = new Task9(i + 1, queue);
+			threads[i] = new Thread(task);
+		}
+
+		for (int i = 0; i < threads.length; i++) {
+			threads[i].start();
+		}
+		for (int i = 0; i < threads.length; i++) {
+			threads[i].join();
+		}
+
+		do {
+			int counter = 0;
+			Event1 event;
+			do {
+				event = queue.poll();
+				if (event != null)
+					counter++;
+			} while (event != null);
+			System.out.printf("At %s you have read %d events\n", new Date(), counter);
+			TimeUnit.MILLISECONDS.sleep(500);
+		} while (queue.size() > 0);*/
+		
+		/************************* ConcurrentSkipListMap **********************/
+		ConcurrentSkipListMap<String, Contact> map = map = new ConcurrentSkipListMap<>();
+		Thread threads[] = new Thread[25];
+		int counter = 0;
+
+		for (char i = 'A'; i < 'Z'; i++) {
+			Task10 task = new Task10(map, String.valueOf(i));
+			threads[counter] = new Thread(task);
+			threads[counter].start();
+			counter++;
+		}
+
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.printf("Main: Size of the map: %d\n", map.size());
+		Map.Entry<String, Contact> element;
+		Contact contact;
+
+		element = map.firstEntry();
+		contact = element.getValue();
+		System.out.printf("Main: First Entry: %s: %s\n", contact.getName(), contact.getPhone());
+
+		element = map.lastEntry();
+		contact = element.getValue();
+		System.out.printf("Main: Last Entry: %s: %s\n", contact.getName(), contact.getPhone());
+
+		System.out.printf("Main: Submap from A1996 to B1002: \n");
+		ConcurrentNavigableMap<String, Contact> subMap = map.subMap("A1995", "B1002");
+
+		do {
+			element = subMap.pollFirstEntry();
+			if (element != null) {
+				contact = element.getValue();
+				System.out.printf("%s: %s\n", contact.getName(), contact.getPhone());
+			}
+		} while (element != null);
 	}
+	
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
 		pw.write("\nMain : Id "+ thread.getId() +" - " + thread.getName() +"\n");
