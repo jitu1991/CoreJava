@@ -1,5 +1,7 @@
 package com.test.concurrency;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Account {
 	private double balance;
 
@@ -29,7 +31,7 @@ public class Account {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		tmp-=amount;
-		balance=tmp;
+		tmp -= amount;
+		balance = tmp;
 	}
 }

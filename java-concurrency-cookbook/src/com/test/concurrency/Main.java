@@ -792,7 +792,7 @@ public class Main {
 		} while (queue.size() > 0);*/
 		
 		/************************* ConcurrentSkipListMap **********************/
-		ConcurrentSkipListMap<String, Contact> map = map = new ConcurrentSkipListMap<>();
+		/*ConcurrentSkipListMap<String, Contact> map = map = new ConcurrentSkipListMap<>();
 		Thread threads[] = new Thread[25];
 		int counter = 0;
 
@@ -831,7 +831,26 @@ public class Main {
 				contact = element.getValue();
 				System.out.printf("%s: %s\n", contact.getName(), contact.getPhone());
 			}
-		} while (element != null);
+		} while (element != null);*/
+		
+		/************************* Using AtomicLong **********************/
+		/*Account1 account = new Account1();
+		account.setBalance(1000);
+		Company1 company = new Company1(account);
+		Thread companyThread = new Thread(company);
+		Bank1 bank = new Bank1(account);
+		Thread bankThread = new Thread(bank);
+		System.out.printf("Account : Initial Balance: %d\n", account.getBalance());
+		companyThread.start();
+		bankThread.start();
+
+		try {
+			companyThread.join();
+			bankThread.join();
+			System.out.printf("Account : Final Balance: %d\n", account.getBalance());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
 	}
 	
 
