@@ -3,11 +3,12 @@ package com.test.concurrency;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class Main {
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		 /* for (int i = 1; i <= 10; i++) {
 			Calculator calc = new Calculator(i);
 			Thread thread = new Thread(calc);
@@ -851,7 +852,7 @@ public class Main {
 		}*/
 		
 		/************************* Using AtomicIntegerArray **********************/
-		final int THREADS = 100;
+		/*final int THREADS = 100;
 		AtomicIntegerArray vector = new AtomicIntegerArray(1000);
 
 		Incrementer incrementer = new Incrementer(vector);
@@ -881,7 +882,121 @@ public class Main {
 				System.out.println("Vector[" + i + "] : " + vector.get(i));
 			}
 		}
-		System.out.println("Main: End of the example");	
+		System.out.println("Main: End of the example");*/
+		
+		/************************* Customizing ThreadPoolExecutor class **********************/
+		/*MyExecutor executor = new MyExecutor(2, 4, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>());
+		List<Future<String>> results = new ArrayList<>();
+
+		for (int i = 0; i < 10; i++) {
+			SleepTwoSecondsTask task = new SleepTwoSecondsTask();
+			Future<String> result = executor.submit(task);
+			results.add(result);
+		}
+
+		for (int i = 0; i < 5; i++) {
+			try {
+				String result = results.get(i).get();
+				System.out.printf("Main: Result for Task %d : %s\n", i, result);
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+
+		executor.shutdown();
+
+		for (int i = 5; i < 10; i++) {
+			try {
+				String result = results.get(i).get();
+				System.out.printf("Main: Result for Task %d : %s\n", i, result);
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			executor.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Priority based Executor class **********************/
+		/*ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 1, TimeUnit.SECONDS,
+				new PriorityBlockingQueue<Runnable>());
+		for (int i = 0; i < 4; i++) {
+			MyPriorityTask task = new MyPriorityTask("Task " + i, i);
+			executor.execute(task);
+		}
+
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 4; i < 8; i++) {
+			MyPriorityTask task = new MyPriorityTask("Task " + i, i);
+			executor.execute(task);
+		}
+
+		executor.shutdown();
+		try {
+			executor.awaitTermination(1, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Priority based Executor class **********************/
+		/*MyThreadFactory myFactory=new MyThreadFactory("MyThreadFactory");
+		MyTask task = new MyTask();
+		Thread thread = myFactory.newThread(task);
+		thread.start();
+		thread.join();
+		System.out.printf("Main: Thread information.\n");
+		System.out.printf("%s\n",thread);
+		System.out.printf("Main: End of the example.\n");*/
+		
+		/************************* Using ThreadFactory in executor framework **********************/
+		/*MyThreadFactory1 threadFactory = new MyThreadFactory1("myThreadFactory");
+		ExecutorService executor=Executors.newCachedThreadPool(threadFactory);
+		
+		MyTask task=new MyTask();
+		executor.submit(task);
+		executor.shutdown();
+		executor.awaitTermination(1, TimeUnit.DAYS);
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Customizing task in scheduled thread pool **********************/
+		/*MyScheduledThreadPoolExecutor executor = new MyScheduledThreadPoolExecutor(2);
+		Task11 task = new Task11();
+		System.out.printf("Main: %s\n", new Date());
+		executor.schedule(task, 1, TimeUnit.SECONDS);
+		TimeUnit.SECONDS.sleep(3);
+		task = new Task11();
+		System.out.printf("Main: %s\n", new Date());
+		executor.scheduleAtFixedRate(task, 1, 3, TimeUnit.SECONDS);
+		TimeUnit.SECONDS.sleep(10);
+		executor.shutdown();
+		executor.awaitTermination(1, TimeUnit.DAYS);
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Implementing the ThreadFactory interface to generate custom threads for the Fork/Join framework**********************/
+		/*MyWorkerThreadFactory factory = new MyWorkerThreadFactory();
+		ForkJoinPool pool = new ForkJoinPool(4, factory, null, false);
+		int array[] = new int[100000];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = 1;
+		}
+		MyRecursiveTask task = new MyRecursiveTask(array, 0, array.length);
+		pool.execute(task);
+		task.join();
+		pool.shutdown();
+		pool.awaitTermination(1, TimeUnit.DAYS);
+		System.out.printf("Main: Result: %d\n", task.get());
+		System.out.printf("Main: End of the program\n");*/
 	}
 	
 
