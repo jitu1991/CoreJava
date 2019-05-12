@@ -3,8 +3,10 @@ package com.test.concurrency;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -983,7 +985,7 @@ public class Main {
 		executor.awaitTermination(1, TimeUnit.DAYS);
 		System.out.printf("Main: End of the program.\n");*/
 		
-		/************************* Implementing the ThreadFactory interface to generate custom threads for the Fork/Join framework**********************/
+		/************************* Implementing the ThreadFactory interface to generate custom threads for the Fork/Join framework **********************/
 		/*MyWorkerThreadFactory factory = new MyWorkerThreadFactory();
 		ForkJoinPool pool = new ForkJoinPool(4, factory, null, false);
 		int array[] = new int[100000];
@@ -997,8 +999,123 @@ public class Main {
 		pool.awaitTermination(1, TimeUnit.DAYS);
 		System.out.printf("Main: Result: %d\n", task.get());
 		System.out.printf("Main: End of the program\n");*/
+		
+		/************************* Implementing custom lock **********************/
+		/*MyLock lock = new MyLock();
+		for (int i = 0; i < 10; i++) {
+			Task12 task = new Task12("Task-" + i, lock);
+			Thread thread = new Thread(task);
+			thread.start();
+		}
+
+		boolean value;
+		do {
+			try {
+				value = lock.tryLock(1, TimeUnit.SECONDS);
+				if (!value) {
+					System.out.printf("Main: Trying to get the Lock\n");
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				value = false;
+			}
+		} while (!value);
+
+		System.out.printf("Main: Got the lock\n");
+		lock.unlock();
+		System.out.printf("Main: End of the program\n");*/
+		
+		/************************* Implementing Transfer queue **********************/
+		//TODO
+		
+		/************************* Custom atomic object **********************/
+		/*ParkingCounter counter=new ParkingCounter(5);
+		
+		Sensor1 sensor1=new Sensor1(counter);
+		Sensor2 sensor2=new Sensor2(counter);
+
+		Thread thread1=new Thread(sensor1);
+		Thread thread2=new Thread(sensor2);
+		
+		thread1.start();
+		thread2.start();
+		
+		thread1.join();
+		thread2.join();
+		System.out.printf("Main: Number of cars: %d\n",counter.get());
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Monitoring lock interface **********************/
+		/*MyLock1 lock = new MyLock1();
+		Thread threads[] = new Thread[5];
+		for (int i = 0; i < 5; i++) {
+			Task13 task = new Task13(lock);
+			threads[i] = new Thread(task);
+			threads[i].start();
+		}
+		for (int i = 0; i < 15; i++) {
+			System.out.printf("Main: Logging the Lock\n");
+			System.out.printf("************************\n");
+			System.out.printf("Lock: Owner : %s\n", lock.getOwnerName());
+			System.out.printf("Lock: Queued Threads: %s\n", lock.hasQueuedThreads());
+			if (lock.hasQueuedThreads()) {
+				System.out.printf("Lock: Queue Length: %d\n", lock.getQueueLength());
+				System.out.printf("Lock: Queued Threads: ");
+				Collection<Thread> lockedThreads = lock.getThreads();
+				for (Thread lockedThread : lockedThreads) {
+					System.out.printf("%s ", lockedThread.getName());
+				}
+				System.out.printf("\n");
+			}
+			System.out.printf("Lock: Fairness: %s\n", lock.isFair());
+			System.out.printf("Lock: Locked: %s\n", lock.isLocked());
+			System.out.printf("************************\n");
+			TimeUnit.SECONDS.sleep(1);
+		}*/
+		
+		/************************* Monitoring Facer class **********************/
+		//TODO
+		
+		/************************* Monitoring Executor framekworn **********************/
+		/*ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+		Random random = new Random();
+		for (int i = 0; i < 10; i++) {
+			Task14 task = new Task14(random.nextInt(10000));
+			executor.submit(task);
+		}
+		for (int i = 0; i < 5; i++) {
+			showLog(executor);
+			TimeUnit.SECONDS.sleep(1);
+		}
+		executor.shutdown();
+		for (int i = 0; i < 5; i++) {
+			showLog(executor);
+			TimeUnit.SECONDS.sleep(1);
+		}
+		executor.awaitTermination(1, TimeUnit.DAYS);
+		System.out.printf("Main: End of the program.\n");*/
+		
+		/************************* Monitoring Fork/join pool **********************/
+		//TODO
+		
+		/************************* Writing effective log messaes **********************/
+		
 	}
 	
+
+	private static void showLog(ThreadPoolExecutor executor) {
+		System.out.printf("*********************");
+		System.out.printf("Main: Executor Log");
+		System.out.printf("Main: Executor: Core Pool Size: %d\n", executor.getCorePoolSize());
+		System.out.printf("Main: Executor: Pool Size: %d\n", executor.getPoolSize());
+		System.out.printf("Main: Executor: Active Count: %d\n", executor.getActiveCount());
+		System.out.printf("Main: Executor: Task Count: %d\n", executor.getTaskCount());
+		System.out.printf("Main: Executor: Completed Task Count: %d\n", executor.getCompletedTaskCount());
+		System.out.printf("Main: Executor: Shutdown: %s\n", executor.isShutdown());
+		System.out.printf("Main: Executor: Terminating: %s\n", executor.isTerminating());
+		System.out.printf("Main: Executor: Terminated: %s\n", executor.isTerminated());
+		System.out.printf("*********************\n");
+	}
 
 	private static void writeThreadInfo(FileWriter pw, Thread thread, State state) throws IOException {
 		pw.write("\nMain : Id "+ thread.getId() +" - " + thread.getName() +"\n");

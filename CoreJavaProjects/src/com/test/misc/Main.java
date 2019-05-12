@@ -67,6 +67,21 @@ public class Main {
 	      int i = 10;
 	      int j = 20;
 	      swap(i, j);
-	      System.out.println("i = " + i + ", j = " + j);
+	      //System.out.println("i = " + i + ", j = " + j);
+	      
+	      int f = 1;
+	      
+	      switch (f) {
+		case 1:
+			System.out.println("AAA");
+			break;
+		case 'B':
+			System.out.println("BBB");
+			break;
+
+		default:
+			System.out.println("default");
+			break;
+		}
 	   }
 }
