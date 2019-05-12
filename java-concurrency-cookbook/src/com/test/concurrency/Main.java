@@ -3,14 +3,16 @@ package com.test.concurrency;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.State;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import edu.umd.cs.mtc.TestFramework;
 
 public class Main {
-	public static void main(String[] args) throws InterruptedException, ExecutionException {
+	public static void main(String[] args) throws Throwable {
 		 /* for (int i = 1; i <= 10; i++) {
 			Calculator calc = new Calculator(i);
 			Thread thread = new Thread(calc);
@@ -1099,7 +1101,35 @@ public class Main {
 		//TODO
 		
 		/************************* Writing effective log messaes **********************/
+		/*Logger logger = MyLogger.getLogger("Core");
+		logger.entering("Core", "main()", args);
+		Thread threads[] = new Thread[5];
+		for (int i = 0; i < threads.length; i++) {
+			logger.log(Level.INFO, "Launching thread: " + i);
+			Task15 task = new Task15();
+			threads[i] = new Thread(task);
+			logger.log(Level.INFO, "Thread created: " + threads[i].getName());
+			threads[i].start();
+		}
+		logger.log(Level.INFO, "Ten Threads created." + "Waiting for its finalization");
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+				logger.log(Level.INFO, "Thread has finished its execution", threads[i]);
+			} catch (InterruptedException e) {
+				logger.log(Level.SEVERE, "Exception", e);
+			}
+			logger.exiting("Core", "main()");
+		}*/
 		
+		/************************* Analyzing code with findbugs **********************/
+		//Have to install findbugs
+		
+		/************************* Testing using MultithreadTC 1.01 and Junit 4.10 **********************/
+		ProducerConsumerTest test = new ProducerConsumerTest();
+		System.out.printf("Main: Starting the test\n");
+		TestFramework.runOnce(test);
+		System.out.printf("Main: The test has finished\n");
 	}
 	
 
