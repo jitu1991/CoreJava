@@ -1,4 +1,4 @@
-package com.test.hfdp;
+package com.test.hfdp.strategy;
 
 public class MallardDuck extends Duck {
 

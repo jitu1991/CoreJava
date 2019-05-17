@@ -1,4 +1,4 @@
-package com.test.hfdp;
+package com.test.hfdp.strategy;
 
 public abstract class Duck {
 	FlyBehaviour flyBehaviour;
