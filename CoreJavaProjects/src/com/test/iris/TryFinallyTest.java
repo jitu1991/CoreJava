@@ -11,13 +11,13 @@ public class TryFinallyTest {
 
 	public static int returnNum(int a, int b) {
 		try {
-			++b;
-			//return a + b;
-			throw new Exception();
-		} catch (Exception e) {
+			//++b;
 			return a;
-		} finally {
+			//throw new Exception();
+		} catch (Exception e) {
 			return b;
+		} finally {
+			return a+b;
 		}
 	}
 
