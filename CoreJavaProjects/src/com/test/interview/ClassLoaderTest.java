@@ -9,11 +9,16 @@ import java.util.logging.Logger;
  * 
  * @author Javin Paul
  */
+class Ao {
+	 Ao(){ 
+		 new Ao(); 
+		 } 
+}
 
 public class ClassLoaderTest {
 
 	public static void main(String args[]) {
-		try {
+		/*try {
 			// printing ClassLoader of this class
 			System.out.println("ClassLoaderTest.getClass().getClassLoader() : "
 					+ ClassLoaderTest.class.getClassLoader());
@@ -25,7 +30,9 @@ public class ClassLoaderTest {
 		} catch (ClassNotFoundException ex) {
 			Logger.getLogger(ClassLoaderTest.class.getName()).log(Level.SEVERE,
 					null, ex);
-		}
+		}*/
+		Ao a = new Ao();
+		System.out.println(a);
 	}
 
 }

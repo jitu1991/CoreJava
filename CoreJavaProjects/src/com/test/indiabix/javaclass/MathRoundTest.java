@@ -1,8 +1,24 @@
 package com.test.indiabix.javaclass;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class MathRoundTest {
 
 	public static void main(String[] args) {
+		double data = 3452.645;
+		String val = "4.5";
+		int value = (int)Math.round(Double.valueOf(val));
+		System.out.println(Math.round(Double.valueOf(val)));
+		
+		BigDecimal curr = BigDecimal.valueOf(11.5);
+		BigDecimal prev = BigDecimal.valueOf(14);
+		
+		BigDecimal change = curr.subtract(prev).abs().setScale(2, RoundingMode.HALF_DOWN);
+		System.out.println(change);
+		
+		/*System.out.println(value);
+		
 		double values[] = {-2.3, -1.0, 0.25, 4};
         int cnt = 0;
         
@@ -18,7 +34,7 @@ public class MathRoundTest {
                 ++cnt;
             }
         }
-        System.out.println("same results " + cnt + " time(s)");
+        System.out.println("same results " + cnt + " time(s)");*/
 	}
 
 }

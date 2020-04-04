@@ -1,6 +1,36 @@
 package com.test.interview;
+
+enum Trading {
+	ALL("ALL_TRAD", "all"),
+	MTM("MTM_TRAD", "mtm");
+
+	private String name;
+	private String code;
+	
+	private Trading(String name, String code) {
+		this.name = name;
+		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+}
+
 enum Singleton {
-	INSTANCE;
+	one;
 }
 
 enum Currency {
@@ -38,7 +68,7 @@ enum Currency {
 public class EnumTest {
 	public static void main(String[] args) {
 		//System.out.println(Currency.DIME);
-		
+		Singleton sin = Singleton.one;
 		//Iterating enum
 		for(Currency coin : Currency.values()) {
 			//System.out.println(coin);
@@ -48,5 +78,7 @@ public class EnumTest {
 		System.out.println(coin);
 		
 		coin.display();
+		
+		System.out.println(Trading.MTM.getName());
 	}
 }

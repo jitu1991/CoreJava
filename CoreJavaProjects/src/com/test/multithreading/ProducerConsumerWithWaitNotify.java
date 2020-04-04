@@ -1,68 +1,79 @@
 package com.test.multithreading;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 
 class Producer implements Runnable {
-	ArrayList<Integer> sharedQueue;
+	Queue<Integer> values;
+	int maxSize;
+	static int i = 1;
 
-	Producer() {
-		sharedQueue = new ArrayList<Integer>();
+	public Producer(Queue<Integer> values, int maxSize) {
+		super();
+		this.values = values;
+		this.maxSize = maxSize;
 	}
 
 	@Override
 	public void run() {
-		synchronized (this) {
-			for (int i = 0; i < 10; i++) {
-				sharedQueue.add(i);
-				System.out.println("Produced: " + i);
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					e.printStackTrace();
+		while (true) {
+			synchronized (values) {
+				while (values.size() == maxSize) {
+					try {
+						values.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+				values.add(i++);
+				System.out.println("produced " + i);
+				values.notifyAll();
 			}
-			System.out.println("Production is done, Consumer can consume");
-			this.notify();
 		}
 	}
 }
 
 class Consumer implements Runnable {
-	ArrayList<Integer> sharedQueue;
-	Producer prod;
+	Queue<Integer> values;
+	int maxSize;
 
-	Consumer(Producer obj) {
-		prod = obj;
+	public Consumer(Queue<Integer> values, int maxSize) {
+		super();
+		this.values = values;
+		this.maxSize = maxSize;
 	}
 
 	@Override
 	public void run() {
-		synchronized (sharedQueue) {
-			try {
-				while (sharedQueue.size() == 0) {
-					System.out.println("Nothing to consume");
-					sharedQueue.wait();
+		while (true) {
+			synchronized (values) {
+				while (values.isEmpty()) {
+					try {
+						values.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				if(sharedQueue.size() > 0) {
-					Thread.sleep(1000);
-					System.out.println("Consumed: " + sharedQueue.remove(0));
-					sharedQueue.notify();
-				}
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Integer integer = values.remove();
+				System.out.println("consumed " + integer);
+				values.notifyAll();
 			}
 		}
-
 	}
-
 }
-
 
 public class ProducerConsumerWithWaitNotify {
 
 	public static void main(String[] args) {
+		Queue<Integer> values = new LinkedList<>();
+		int maxSize = 10;
 
+		Thread producer = new Thread(new Producer(values, maxSize));
+		Thread consumer = new Thread(new Consumer(values, maxSize));
+
+		producer.start();
+		consumer.start();
 	}
-
 }

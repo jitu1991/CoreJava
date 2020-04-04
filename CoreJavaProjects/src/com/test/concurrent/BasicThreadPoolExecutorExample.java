@@ -19,6 +19,6 @@ public class BasicThreadPoolExecutorExample
 			executor.execute(task);
 		}
 		executor.shutdown();
-		System.out.println(executor.isShutdown());
+		//System.out.println(executor.isShutdown());
 	}
 }

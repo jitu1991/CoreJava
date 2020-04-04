@@ -11,13 +11,15 @@ import java.util.TreeSet;
 
 public class DateFormatterTest {
 	public static void main(String[] args) throws ParseException {
+		
+		System.out.println(22 == new Integer(22));
 	/*String pattern = "MMM-dd-YYYY";
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
 	String date = simpleDateFormat.format(System.currentTimeMillis());
 	System.out.println(date);*/
 		
-		String date = "20180312";
+		String date = "20191115";
 		Date simpleDateFormat = new SimpleDateFormat("yyyyMMdd").parse(date);
 		//System.out.println(simpleDateFormat);
 		

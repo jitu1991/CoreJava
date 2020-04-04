@@ -1,10 +1,10 @@
 package com.test.iris;
 
 class Aq {
-	/*public int getNum(int a) {
+	public int getNum(int a) {
 		System.out.println(a);
 		return a;
-	}*/
+	}
 	
 	public void aTest(int a) {
 		System.out.println(a);
@@ -12,10 +12,10 @@ class Aq {
 }
 
 class Bq extends Aq {
-	/*public int getNum(int a) {
+	public int getNum(int a) {
 		System.out.println(a);
 		return 1;
-	}*/
+	}
 	public void aTest(int a, int b) {
 		System.out.println(a +"" + "" +b);
 	}

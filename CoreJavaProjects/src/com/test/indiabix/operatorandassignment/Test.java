@@ -1,9 +1,17 @@
 package com.test.indiabix.operatorandassignment;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Test {
 	public static void main(String[] args) {
 		Test p = new Test();
 		p.start();
+		
+		String s = "A, b, c";
+		List<String> split = Arrays.asList(s.split(","));
+		split.stream().forEach(x -> x.trim());
+		System.out.println(split);
 	}
 
 

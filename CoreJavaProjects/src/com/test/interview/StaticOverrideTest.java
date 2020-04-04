@@ -11,6 +11,7 @@ class Parent {
 }
 
 class Child extends Parent {
+	//@Override
 	public static void name() {
 		System.out.println("static in child");
 	}

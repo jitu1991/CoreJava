@@ -8,14 +8,14 @@ public final class ImmutableStudent {
 	
 	public ImmutableStudent(int id, String name, Age age) {
 		super();
-		Age cloneAge = new Age();
+		/*Age cloneAge = new Age();
 		cloneAge.setDay(age.getDay());
 		cloneAge.setMonth(age.getMonth());
-		cloneAge.setYear(age.getYear());
+		cloneAge.setYear(age.getYear());*/
 		
 		this.id = id;
 		this.name = name;
-		this.age = cloneAge;
+		this.age = age;
 	}
 
 	public int getId() {

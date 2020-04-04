@@ -6,7 +6,20 @@ import java.util.Collections;
 
 public class FindMissingNumberInArray {
 	public static void main(String[] args) {
-		int numArray[] = {1, 2, 3, 3,3, 5, 6, 8, 9, 10, 11, 13 };
+		int numArray[] = {1, 2, 3, 4, 6, 8, 9, 10, 11};
+		
+		for(int i = 0; i < numArray.length; i++) {
+			int num = numArray[i];
+			if(num == i+1) {
+				continue;
+			}
+			System.out.println("Missing no " + (i+1));
+			break;
+		}
+		
+		
+		
+		/*int numArray[] = {1, 2, 3, 3,3, 5, 6, 8, 9, 10, 11, 13 };
 
 		System.out.println(Arrays.toString(numArray));
 		Arrays.sort(numArray);
@@ -15,7 +28,7 @@ public class FindMissingNumberInArray {
 		int num = numArray[0];
 		for (int i = 0; i < numArray.length; i++) {
 			if (numArray[i] != num) {
-				System.out.println(/* i+" is repeated at ["+ i + "]" */ "Missing number " + num);
+				System.out.println( i+" is repeated at ["+ i + "]"  "Missing number " + num);
 				if (numArray[i - 1] == numArray[i]) {
 					System.out.println("Duplicate " + numArray[i]);
 					i++;
@@ -23,7 +36,7 @@ public class FindMissingNumberInArray {
 				i--;
 			}
 			num++;
-		}
+		}*/
 	}
 
 	/*int num = numArray[0];

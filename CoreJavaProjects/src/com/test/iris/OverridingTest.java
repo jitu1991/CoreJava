@@ -52,6 +52,5 @@ public class OverridingTest {
 		
 		p.test();
 		p.test1();
-		
 	}
 }

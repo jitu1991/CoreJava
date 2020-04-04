@@ -1,4 +1,4 @@
-package com.test.concurrency;
+package src.com.test.concurrency;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 
