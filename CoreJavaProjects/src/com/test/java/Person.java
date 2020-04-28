@@ -37,7 +37,7 @@ public class Person implements Comparable {
 
 	@Override
 	public String toString(){
-		return String.valueOf(person_id);
+		return String.valueOf(person_id + ", " + name);
 	}
 
 	
