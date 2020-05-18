@@ -13,6 +13,12 @@ public class DoubleTest {
 		
 		double val = 41113.55543333;
 		System.out.println(df.format(val));
+		
+		int test = (int) Math.round(0.50);
+		System.out.println(test);
+		
+		String quote = "\'test\'";
+		System.out.println(quote);
 	}
 
 }
