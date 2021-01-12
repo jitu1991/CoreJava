@@ -3,6 +3,8 @@ package com.test.indiabix.flowcontrol;
 public class IfElseTest {
 	static boolean b1, b2;
 	public static void main(String[] args) {
+		System.out.println(!"x".equalsIgnoreCase("x"));
+		
 		int x = 0;
 		if (!b1) /* Line 7 */
 		{

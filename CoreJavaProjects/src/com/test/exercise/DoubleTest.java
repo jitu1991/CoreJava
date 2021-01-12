@@ -19,6 +19,8 @@ public class DoubleTest {
 		
 		String quote = "\'test\'";
 		System.out.println(quote);
+		int ii = (int) 0.0;
+		System.out.println(ii);
 	}
 
 }

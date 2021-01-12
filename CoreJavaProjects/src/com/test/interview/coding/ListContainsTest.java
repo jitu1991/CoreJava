@@ -16,6 +16,9 @@ public class ListContainsTest {
 		Here 6 to 10 is overlapping and 12-20 is overlapping with 12-14
 		hence 2 overlaps*/
 		
+		double parseDouble = Double.parseDouble("3.464545656464546E7");
+		System.out.println(parseDouble);
+		
 		Person p1 = new Person(1, "AA");
 		Person p2 = new Person(2, "BB");
 		Person p3 = new Person(3, "CC");

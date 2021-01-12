@@ -46,6 +46,11 @@ public class StreamTest {
 			s.getValue().forEach(t->System.out.println(t.getNum()+" "));
 		}
 		
+		List<String> str = new ArrayList<>();
+		str.add("a");
+		str.add("b");
 		
+		String collect = str.stream().map(String::valueOf).collect(Collectors.joining("','"));
+		System.out.println(collect);
 	}
 }

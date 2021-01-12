@@ -2,12 +2,17 @@ package com.test.indiabix.javaclass;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MathRoundTest {
 
 	public static void main(String[] args) {
+		List<String> str = new ArrayList<>();
+		System.out.println(str);
+		
 		double data = 3452.645;
-		String val = "4.5";
+		String val = "4.3";
 		int value = (int)Math.round(Double.valueOf(val));
 		System.out.println(Math.round(Double.valueOf(val)));
 		
@@ -16,7 +21,8 @@ public class MathRoundTest {
 		
 		BigDecimal change = curr.subtract(prev).abs().setScale(2, RoundingMode.HALF_DOWN);
 		System.out.println(change);
-		
+		double d = 0.764545;
+		System.out.println((int) Math.round(0.77*100));
 		/*System.out.println(value);
 		
 		double values[] = {-2.3, -1.0, 0.25, 4};

@@ -18,7 +18,7 @@ public class ComparableTest implements Comparable<ComparableTest>{
 	@Override
 	public int compareTo(ComparableTest o) {
 		//return this.i - o.i;
-		return this.str.compareTo(o.str);
+		return o.str.compareTo(this.str);
 	}
 	
 	public static void main(String[] args) {
