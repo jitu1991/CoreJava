@@ -11,7 +11,19 @@ import java.util.TreeSet;
 
 public class DateFormatterTest {
 	public static void main(String[] args) throws ParseException {
+		boolean b1 =true;
+		boolean b2 =false;
+		boolean b3 =true;
 		
+		if(b1 & b2 | b2&b3|b2) {
+			System.out.println("ok");
+		}
+		if(b1 & b2 | b2&b3|b2|b1) {
+			System.out.println("dokey");
+			
+		}
+
+			
 		//System.out.println(22 == new Integer(22));
 	/*String pattern = "MMM-dd-YYYY";
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -19,10 +31,14 @@ public class DateFormatterTest {
 	String date = simpleDateFormat.format(System.currentTimeMillis());
 	System.out.println(date);*/
 		
-		String date = "2018~3~0~15~0~Daily";
-		System.out.println(date.substring(0, date.indexOf("Daily")));
-		Date simpleDateFormat = new SimpleDateFormat("yyyy~MM~0~dd~0~").parse(date);
-		System.out.println(simpleDateFormat);
+		/*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMyyyy");
+		String month = new SimpleDateFormat("MMM").format(simpleDateFormat.parse("022020"));
+		System.out.println(month);*/
+		
+		/*String date = "2018~3~0~15~0~Daily";
+		//System.out.println(date.substring(0, date.indexOf("Daily")));
+		Date simpleDateFormat = new SimpleDateFormat("yyyy~MM~0~dd~0~Daily").parse(date);
+		System.out.println(simpleDateFormat);*/
 		
 		/*String pattern = "MMM-dd-YYYY";
 		SimpleDateFormat newFormat = new SimpleDateFormat(pattern);

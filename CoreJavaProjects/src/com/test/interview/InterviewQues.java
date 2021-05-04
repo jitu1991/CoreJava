@@ -76,6 +76,9 @@ class Sample implements AbstractInterface {
 
 public class InterviewQues {
 	public static void main(String[] args) {
+		int[] x = {1,2,3};
+		int[] y= x;
+		System.out.println(y[2]);
 		
 		/*System.out.println(0.0/4.5);//	0.0
 		System.out.println(4.5/0.0);//	Infinity
