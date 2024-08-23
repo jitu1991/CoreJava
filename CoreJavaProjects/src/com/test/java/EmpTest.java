@@ -1,6 +1,7 @@
 package com.test.java;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmpTest {
 	
@@ -13,7 +14,12 @@ public class EmpTest {
 		empList.add(empOne);
 		empList.add(empTwo);
 		empList.add(empThree);
-		
+
+		Map<Integer, List<Employee>> collect = empList.stream().collect(Collectors.groupingBy(Employee::getId));
+		String s = "It was a tough interview";
+		String max = Arrays.stream(s.split(" ")).max(Comparator.comparingInt(String::length)).orElse("");
+
+
 		Employee e1 = empList.get(0);
 		e1 = null;
 		System.out.println(e1.getId());
